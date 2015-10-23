@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>DownCloud</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+	</head>
+	<body>
+<div class="container-full">
+
+      <div class="row">
+
+        <div class="col-lg-12 text-center v-center">
+
+          <h1>DownCloud</h1>
+          <p class="lead">Enter the URL of a Soundcloud playlist to begin</p>
+          <br><br><br>
+
+          <form class="col-lg-12" action="process" method="get">
+            <div class="input-group" style="width:680px;text-align:center;margin:0 auto;">
+            <input class="form-control input-lg" placeholder="https://soundcloud.com/user/sets/playlist" type="text" name="soundcloudurl">
+              <span class="input-group-btn"><button class="btn btn-lg btn-primary" id="myButton" data-loading-text="Loading..." autocomplete="off" type="submit">Begin</button></span>
+            </div>
+          </form>
+          <br>
+         <p class="lead">The playlist will be downloaded as a zipped folder with individual mp3 files</p>
+        </div>
+
+      </div>
+
+  	<br><br><br><br><br>
+
+
+	<div class="row" style="position:absolute; bottom: 0px; width: 100%;">
+
+        <div class="col-lg-2 col-lg-push-10 text-right v-center" style="font-size:39pt;">
+          <a href="https://github.com/ps2weirdo24"><i class="icon-github"></i></a>&nbsp;
+        </div>
+
+    </div>
+</div>
+
+
+	<!-- script references -->
+
+<script>
+  $('#myButton').on('click', function () {
+    var $btn = $(this).button('loading')
+})
+</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	</body>
+</html>
