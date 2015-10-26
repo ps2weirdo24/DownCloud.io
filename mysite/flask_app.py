@@ -8,8 +8,8 @@ import os
 import zipfile
 import shutil
 
-MYID = "ac4f4ec8b559f515f807d3071a2846f5"
-MYSEC = "8f7b521e148635af7b78c96893619d8e"
+MYID = "None-ya"
+MYSEC = "Business"
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
