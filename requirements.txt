@@ -1,3 +1,4 @@
 Flask == 0.9
 soundcloud == 0.4.1
 wget == 2.2
+pyyaml = 3.11

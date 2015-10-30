@@ -7,15 +7,19 @@ import wget
 import os
 import zipfile
 import shutil
+import yaml
 
-MYID = #Replace this with SoundCloud
-MYSEC = #API information
+configfile = open("mysite/config.yaml", "r")
+yamlfile = yaml.load(configfile)
+configfile.close()
 
-def create_foldername(name, user):
+MYID = yamlfile["soundcloudid"]
+MYSEC = yamlfile["soudncloudsecret"]
+
+def create_nicename(name):
 	bad_chars = "?%*/><|:&.\\\""
 
 	dirty_name = str(name)
-	dirty_user = str(user)
 
 	for item in dirty_name:
 		if item in bad_chars:
@@ -30,22 +34,7 @@ def create_foldername(name, user):
 
 	clean_name = " ".join(clean_name_list)
 
-	for item in dirty_user:
-		if item in bad_chars:
-			dirty_user = dirty_user.replace(item," ")
-
-	cleanish_user = dirty_user.split(" ")
-	clean_user_list = []
-
-	for item in cleanish_user:
-		if item != "":
-			clean_user_list.append(item)
-
-	clean_user = " ".join(clean_user_list)
-
-	final_name = clean_name + " - " + clean_user
-
-	return final_name
+	return clean_name
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -85,7 +74,7 @@ def processurl():
         #pl_artwork = res_list.artwork_url
         pl_user = (res_list.user["username"]).encode("utf-8")
         #pl_number_of_tracks = str(len(res_list.tracks))
-        clean_name = create_foldername(pl_name, pl_user)
+        clean_name = create_nicename(pl_name) + " - " + create_nicename(pl_user)
         folder_name = "mysite/downloads/" + clean_name
         safe_folder_name = "downloads/" + clean_name
         os.mkdir(folder_name)
@@ -94,7 +83,7 @@ def processurl():
         for track in res_list.tracks:
             if track["streamable"]:
 		        step1_stream_url = track["stream_url"]
-		        track_filename = folder_name + "/" + (track["title"]).encode("utf-8") + ".mp3"
+		        track_filename = folder_name + "/" + create_nicename((track["title"]).encode("utf-8")) + ".mp3"
 		        step2_stream_url = client.get(step1_stream_url, allow_redirects=False)
 		        step3_stream_url = step2_stream_url.location
 		        this_dl = wget.download(step3_stream_url, out=track_filename)
