@@ -1,4 +1,5 @@
 
+# A very simple Flask Hello World app for you to get started with...
 
 from flask import Flask, render_template, request, send_file
 import soundcloud
@@ -7,8 +8,44 @@ import os
 import zipfile
 import shutil
 
-MYID = "None-ya"
-MYSEC = "Business"
+MYID = #Replace this with SoundCloud
+MYSEC = #API information
+
+def create_foldername(name, user):
+	bad_chars = "?%*/><|:&.\\\""
+
+	dirty_name = str(name)
+	dirty_user = str(user)
+
+	for item in dirty_name:
+		if item in bad_chars:
+			dirty_name = dirty_name.replace(item," ")
+
+	cleanish_name = dirty_name.split(" ")
+	clean_name_list = []
+
+	for item in cleanish_name:
+		if item != "":
+			clean_name_list.append(item)
+
+	clean_name = " ".join(clean_name_list)
+
+	for item in dirty_user:
+		if item in bad_chars:
+			dirty_user = dirty_user.replace(item," ")
+
+	cleanish_user = dirty_user.split(" ")
+	clean_user_list = []
+
+	for item in cleanish_user:
+		if item != "":
+			clean_user_list.append(item)
+
+	clean_user = " ".join(clean_user_list)
+
+	final_name = clean_name + " - " + clean_user
+
+	return final_name
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -45,11 +82,12 @@ def processurl():
         return render_template("playerror.html", wrong_url=target_url)
     else:
         pl_name = (res_list.title).encode("utf-8")
-        pl_artwork = res_list.artwork_url
+        #pl_artwork = res_list.artwork_url
         pl_user = (res_list.user["username"]).encode("utf-8")
-        pl_number_of_tracks = str(len(res_list.tracks))
-        folder_name = "mysite/downloads/" + pl_name + " - " + pl_user
-        safe_folder_name = "downloads/" + pl_name + " - " + pl_user
+        #pl_number_of_tracks = str(len(res_list.tracks))
+        clean_name = create_foldername(pl_name, pl_user)
+        folder_name = "mysite/downloads/" + clean_name
+        safe_folder_name = "downloads/" + clean_name
         os.mkdir(folder_name)
         track_count = 1
         good_count = 0
@@ -68,7 +106,7 @@ def processurl():
         zipdir(folder_name, zipf)
         zipf.close()
         shutil.rmtree(folder_name)
-        return render_template("process.html", channel=pl_user, artwork_url=pl_artwork, playlist_name=pl_name, link=(safe_folder_name + ".zip"))
+        return render_template("process.html", channel=pl_user, playlist_name=pl_name, link=(safe_folder_name + ".zip"))
 
 
 if __name__ == "__main__":
